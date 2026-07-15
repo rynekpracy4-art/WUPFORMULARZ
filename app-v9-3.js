@@ -12,6 +12,8 @@
   const declarationConfirm = document.getElementById('declarationConfirm');
   const declarationCheckbox = form.elements.potwierdzenie;
   const declarationName = document.getElementById('declarationName');
+  const copyLinkBtn = document.getElementById('copyLinkBtn');
+  const copyLinkStatus = document.getElementById('copyLinkStatus');
   let declarationsRead = false;
 
   function updateDeclarationName() {
@@ -28,6 +30,17 @@
       declarationConfirm.querySelector('small').textContent = 'Zaznacz pole po zapoznaniu się z pełną treścią.';
     }
   });
+  if (copyLinkBtn) {
+    copyLinkBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href.split('#')[0]);
+        copyLinkStatus.textContent = 'Link został skopiowany.';
+      } catch (_) {
+        copyLinkStatus.textContent = 'Skopiuj adres z paska przeglądarki.';
+      }
+      setTimeout(() => { copyLinkStatus.textContent = ''; }, 3000);
+    });
+  }
   const clearBtn = document.getElementById('clearBtn');
   const needsDetails = document.getElementById('needsDetails');
   const previewDialog = document.getElementById('previewDialog');
@@ -130,29 +143,32 @@
   const supportHint = document.getElementById('supportHint');
   const isLanguageArea = value => /język|jezyk/i.test(value || '');
 
+  function setSupportLevelMode(index, languageMode) {
+    const row = document.querySelector(`[data-support-row="${index}"]`);
+    if (!row) return;
+    const fieldset = row.querySelector('.support-level-fieldset');
+    const legend = fieldset?.querySelector('legend');
+    const labels = [...(fieldset?.querySelectorAll('.support-level-segmented label span') || [])];
+    const radios = [...(fieldset?.querySelectorAll('input[type="radio"]') || [])];
+    const normalLabels = ['Podstawowy','Średniozaawansowany','Zaawansowany'];
+    const languageLabels = ['A1/A2','B1/B2','C1'];
+    if (legend) legend.textContent = languageMode ? 'Poziom języka *' : 'Preferowany poziom wsparcia *';
+    labels.forEach((span, position) => { span.textContent = (languageMode ? languageLabels : normalLabels)[position]; });
+    fieldset?.classList.toggle('is-language-mode', languageMode);
+    radios.forEach(radio => { radio.checked = false; });
+    const storage = form.elements[`jezyk_${index}_poziom`];
+    if (storage) storage.value = '';
+  }
+
   function setLanguageDetails(index, visible) {
     const box = document.getElementById(`languageDetails${index}`);
     const language = form.elements[`jezyk_${index}`];
-    const level = form.elements[`jezyk_${index}_poziom`];
-    const otherWrap = document.getElementById(`languageOther${index}`);
-    const other = form.elements[`jezyk_${index}_inny`];
-    if (!box || !language || !level || !otherWrap || !other) return;
+    if (!box || !language) return;
 
     box.classList.toggle('hidden', !visible);
     language.required = visible;
-    level.required = visible;
-    if (!visible) {
-      language.value = '';
-      level.value = '';
-      other.value = '';
-      other.required = false;
-      otherWrap.classList.add('hidden');
-    } else {
-      const custom = language.value === 'inny';
-      otherWrap.classList.toggle('hidden', !custom);
-      other.required = custom;
-      if (!custom) other.value = '';
-    }
+    setSupportLevelMode(index, visible);
+    if (!visible) language.value = '';
   }
 
   function updateLanguageDetails(select) {
@@ -163,10 +179,10 @@
   function supportAreaPdfValue(index) {
     const area = get(`obszar_wsparcia_${index}`);
     if (!isLanguageArea(area)) return area;
-    const languageChoice = get(`jezyk_${index}`);
-    const language = languageChoice === 'inny' ? get(`jezyk_${index}_inny`) : languageChoice;
-    const level = get(`jezyk_${index}_poziom`);
-    return [area, language ? `Język: ${language}` : '', level ? `Poziom: ${level}` : ''].filter(Boolean).join(' — ');
+    const language = get(`jezyk_${index}`);
+    const selectedLevel = selected(`obszar_${index}_poziom`);
+    const languageLevel = ({'1':'A1/A2','2':'B1/B2','3':'C1'})[selectedLevel] || '';
+    return [area, language ? `Język: ${language}` : '', languageLevel ? `Poziom: ${languageLevel}` : ''].filter(Boolean).join(' — ');
   }
 
   function refreshSupportAreaOptions() {
@@ -214,8 +230,16 @@
   }));
 
   [1,2,3].forEach(index => {
-    const languageSelect = form.elements[`jezyk_${index}`];
-    languageSelect?.addEventListener('change', () => setLanguageDetails(index, true));
+    const row = document.querySelector(`[data-support-row="${index}"]`);
+    row?.querySelectorAll(`input[name="obszar_${index}_poziom"]`).forEach(radio => {
+      radio.addEventListener('change', () => {
+        const storage = form.elements[`jezyk_${index}_poziom`];
+        if (!storage) return;
+        storage.value = isLanguageArea(get(`obszar_wsparcia_${index}`))
+          ? ({'1':'A1/A2','2':'B1/B2','3':'C1'})[radio.value] || ''
+          : '';
+      });
+    });
   });
 
   document.querySelectorAll('[name="szczegolne_potrzeby"]').forEach(el => el.addEventListener('change', () => {
@@ -335,6 +359,18 @@
     page.drawLine({start:{x:cx-size,y:cy+size},end:{x:cx+size,y:cy-size},thickness:2.0,color:rgb(0,0,0)});
   }
 
+  // Mniejszy znak dla punktów listy na stronie 3. Współrzędne są
+  // skorygowane optycznie tak, aby X trafiał dokładnie w środek kropki,
+  // zamiast zasłaniać tekst lub wychodzić poza znacznik.
+  function drawPositionLevelX(page, rect) {
+    const [, x1, y1, x2, y2] = rect;
+    const cx = (x1 + x2) / 2 - 0.35;
+    const cy = (y1 + y2) / 2 - 0.15;
+    const size = 2.65;
+    page.drawLine({start:{x:cx-size,y:cy-size},end:{x:cx+size,y:cy+size},thickness:1.55,color:rgb(0,0,0)});
+    page.drawLine({start:{x:cx-size,y:cy+size},end:{x:cx+size,y:cy-size},thickness:1.55,color:rgb(0,0,0)});
+  }
+
   async function redrawCharacterRow(pdfDoc, page, rect, text, slots, fontSize = 10.6) {
     const [, x1, y1, x2, y2] = rect;
     const width = x2 - x1;
@@ -395,9 +431,17 @@
   }
 
   async function buildPdf() {
-    const response = await fetch('assets/formularz-wzor-v5.pdf?v=5', {cache:'no-store'});
-    if (!response.ok) throw new Error('Nie udało się wczytać wzoru PDF.');
-    const pdfDoc = await PDFDocument.load(await response.arrayBuffer());
+    let templateBytes;
+    if (window.EMBEDDED_TEMPLATE_PDF) {
+      const binary = atob(window.EMBEDDED_TEMPLATE_PDF);
+      templateBytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) templateBytes[i] = binary.charCodeAt(i);
+    } else {
+      const response = await fetch('assets/formularz-wzor-v5.pdf', {cache:'no-store'});
+      if (!response.ok) throw new Error('Nie udało się wczytać wzoru PDF.');
+      templateBytes = new Uint8Array(await response.arrayBuffer());
+    }
+    const pdfDoc = await PDFDocument.load(templateBytes);
     // Wzór jest czystym, nieinteraktywnym PDF-em. Nie ma w nim widżetów ani pustych pól AcroForm.
     const pages = pdfDoc.getPages();
 
@@ -432,7 +476,14 @@
       ...['niepelnosprawnosc','kraje_trzecie','obce_pochodzenie','mniejszosc','bezdomnosc','szczegolne_potrzeby'].map(n=>`${n}_${selected(n)}`),
       selected('szczebel'), ...[1,2,3].map(n=>`obszar_${n}_poziom_${get(`obszar_${n}_poziom`)}`)
     ];
-    marks.forEach(name=>{const rect=checks[name]; if(rect) drawX(pages[rect[0]-1],rect);});
+    const positionLevelMarks = new Set(['kadra_zarzadzajaca','wyzszy_szczebel','sredni_szczebel','nizszy_szczebel','prace_proste']);
+    marks.forEach(name=>{
+      const rect=checks[name];
+      if(!rect) return;
+      const page=pages[rect[0]-1];
+      if(positionLevelMarks.has(name)) drawPositionLevelX(page,rect);
+      else drawX(page,rect);
+    });
 
     return await pdfDoc.save({useObjectStreams:false});
   }
