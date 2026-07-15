@@ -1,13 +1,309 @@
-# Formularz rekrutacyjny – paczka GitHub Pages
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formularz rekrutacyjny - generator PDF</title>
+  <link rel="stylesheet" href="./style.css?v=10.8">
+</head>
+<body>
+  <header class="site-header">
+    <div class="funding-strip">
+      <div class="brand-wrap">
+        <div class="funding-logos" aria-label="Logotypy programu i instytucji finansujących">
+          <img src="./assets/fundusze-slaskie.png" alt="Fundusze Europejskie dla Śląskiego">
+          <img src="./assets/rzeczpospolita.png" alt="Rzeczpospolita Polska">
+          <img src="./assets/unia-europejska.png" alt="Dofinansowane przez Unię Europejską">
+          <img src="./assets/wojewodztwo-slaskie.png" alt="Województwo Śląskie">
+        </div>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="institution-row">
+            <div class="wup-brand-box">
+              <img src="./assets/logo-wup-oficjalne.png" alt="Wojewódzki Urząd Pracy w Katowicach" class="wup-logo-wide">
+            </div>
+          </div>
+          <h1>Formularz rekrutacyjny uczestnika projektu</h1>
+          <p class="hero-lead">Wypełnij formularz online w kilku prostych krokach. Po zakończeniu zobaczysz podgląd i pobierzesz gotowy dokument PDF zachowujący oficjalny układ formularza.</p>
+          <div class="project-chip"><strong>Projekt:</strong>&nbsp; „Opracowanie modelu prognozowania i monitorowania zmian na rynku pracy”</div>
+        </div>
+        <div class="hero-panel">
+          <div class="privacy-icon" aria-hidden="true">✓</div>
+          <strong>Bezpieczne i wygodne wypełnianie</strong>
+          <p>Formularz działa lokalnie w przeglądarce. Dane nie są wysyłane ani zapisywane na serwerze. Gotowy plik PDF trafia bezpośrednio na Twoje urządzenie.</p>
+        </div>
+      </div>
+    </div>
+  </header>
 
-## Publikacja
-1. Rozpakuj ZIP.
-2. Wgraj **zawartość folderu**, nie sam plik ZIP, do katalogu publikowanego w repozytorium.
-3. Na głównym poziomie muszą być widoczne: `index.html`, `style.css`, `app.js`, `.nojekyll`, `404.html`, `assets/`.
-4. GitHub: **Settings → Pages → Deploy from a branch → main → /(root)**.
-5. Po wdrożeniu odczekaj 1–3 minuty i wykonaj twarde odświeżenie (`Ctrl+F5` / `Cmd+Shift+R`).
+  <main class="layout">
+    <form id="recruitmentForm" novalidate>
+      <section class="card">
+        <div class="section-title"><span>1</span><div><h2>Dane osobowe</h2><p>Pola oznaczone gwiazdką są wymagane.</p></div></div>
+        <div class="grid two">
+          <label>Imię *<input name="imie" autocomplete="given-name" required></label>
+          <label>Nazwisko *<input name="nazwisko" autocomplete="family-name" required></label>
+          <label>Obywatelstwo *<input name="obywatelstwo" required value="polskie"></label>
+          <label>Wiek *<input name="wiek" type="number" min="16" max="100" required></label>
+          <label>PESEL *<input name="pesel" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required></label>
+          <label>Data urodzenia *<input name="data_urodzenia" type="date" required></label>
+        </div>
+        <fieldset><legend>Płeć *</legend><div class="choice-row"><label><input type="radio" name="plec" value="kobieta" required> Kobieta</label><label><input type="radio" name="plec" value="mezczyzna"> Mężczyzna</label></div></fieldset>
+        <fieldset><legend>Wykształcenie *</legend><div class="choices">
+          <label><input type="radio" name="wyksztalcenie" value="podstawowe" required> Podstawowe (ISCED 1)</label>
+          <label><input type="radio" name="wyksztalcenie" value="gimnazjalne"> Gimnazjalne (ISCED 2)</label>
+          <label><input type="radio" name="wyksztalcenie" value="ponadgimnazjalne"> Ponadgimnazjalne (ISCED 3)</label>
+          <label><input type="radio" name="wyksztalcenie" value="policealne"> Policealne (ISCED 4)</label>
+          <label><input type="radio" name="wyksztalcenie" value="wyzsze"> Wyższe (ISCED 5–8)</label>
+        </div>
+        <details class="field-explanation education-explanation">
+          <summary><span class="help-icon" aria-hidden="true">i</span><span>Wyjaśnienia poziomów wykształcenia</span></summary>
+          <div class="field-explanation-content explanation-cards">
+            <article class="explanation-card"><strong>Ponadgimnazjalne</strong><p>Ukończona zasadnicza szkoła zawodowa, liceum, technikum lub technikum uzupełniające.</p></article>
+            <article class="explanation-card"><strong>Policealne</strong><p>Ukończona szkoła policealna.</p></article>
+            <article class="explanation-card"><strong>Wyższe</strong><p>Ukończone studia krótkiego cyklu, licencjackie, magisterskie lub doktoranckie.</p></article>
+          </div>
+        </details></fieldset>
+      </section>
 
-Dane są przetwarzane lokalnie w przeglądarce. Generator nie wymaga serwera aplikacyjnego.
+      <section class="card">
+        <div class="section-title"><span>2</span><div><h2>Adres zamieszkania</h2></div></div>
+        <div class="grid two">
+          <label>Województwo *<input name="wojewodztwo" required value="śląskie"></label>
+          <label>Powiat *<input name="powiat" required></label>
+          <label>Gmina *<input name="gmina" required></label>
+          <label>Miejscowość *<input name="miejscowosc" autocomplete="address-level2" required></label>
+          <label>Kod pocztowy *<input name="kod_pocztowy" autocomplete="postal-code" pattern="[0-9]{2}-[0-9]{3}" placeholder="00-000" required></label>
+          <label>Ulica *<input name="ulica" autocomplete="street-address" required></label>
+          <label>Nr domu *<input name="nr_domu" required></label>
+          <label>Nr lokalu<input name="nr_lokalu"></label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><span>3</span><div><h2>Dane kontaktowe i zatrudnienie</h2></div></div>
+        <div class="grid two">
+          <label>Telefon *<input name="telefon" type="tel" autocomplete="tel" required></label>
+          <label>Adres e-mail *<input name="email" type="email" autocomplete="email" required></label>
+          <label class="wide">Zatrudniony/a w *<input name="zatrudniony_w" required></label>
+          <label>Typ umowy *<input name="typ_umowy" required></label>
+          <label class="employment-start-label"><span>Data rozpoczęcia zatrudnienia<br>w urzędzie pracy *</span><input name="data_rozp_zatr" type="date" required></label>
+          <label>Data zakończenia zatrudnienia<input name="data_zakonczenia_zatr" placeholder="np. nadal lub 2027-12-31"></label>
+          <label>Zajmowane stanowisko pracy *<input name="stanowisko_pracy" required></label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><span>4</span><div><h2>Status uczestnika</h2><p>W każdym wierszu wybierz TAK albo NIE.</p></div></div>
+        <div class="status-list">
+          <fieldset><legend>Osoba z niepełnosprawnością / niepełnosprawnościami *</legend><div class="choice-row"><label><input type="radio" name="niepelnosprawnosc" value="tak" required> TAK</label><label><input type="radio" name="niepelnosprawnosc" value="nie"> NIE</label></div></fieldset>
+          <fieldset><legend>Osoba z krajów trzecich *</legend><div class="choice-row"><label><input type="radio" name="kraje_trzecie" value="tak" required> TAK</label><label><input type="radio" name="kraje_trzecie" value="nie"> NIE</label></div></fieldset>
+          <fieldset><legend>Osoba obcego pochodzenia *</legend><div class="choice-row"><label><input type="radio" name="obce_pochodzenie" value="tak" required> TAK</label><label><input type="radio" name="obce_pochodzenie" value="nie"> NIE</label></div></fieldset>
+          <fieldset><legend>Osoba należąca do mniejszości, w tym społeczności marginalizowanych *</legend><div class="choice-row"><label><input type="radio" name="mniejszosc" value="tak" required> TAK</label><label><input type="radio" name="mniejszosc" value="nie"> NIE</label></div></fieldset>
+          <fieldset><legend>Osoba w kryzysie bezdomności lub wykluczona z dostępu do mieszkań *</legend><div class="choice-row"><label><input type="radio" name="bezdomnosc" value="tak" required> TAK</label><label><input type="radio" name="bezdomnosc" value="nie"> NIE</label></div></fieldset>
+        </div>
+        <fieldset><legend>Szczególne potrzeby wymagające racjonalnych usprawnień *</legend><div class="choice-row"><label><input type="radio" name="szczegolne_potrzeby" value="nie" required> NIE</label><label><input type="radio" name="szczegolne_potrzeby" value="tak"> TAK</label></div></fieldset>
+        <label id="needsDetails" class="hidden">Rodzaj potrzeb i oczekiwane usprawnienia<textarea name="opis_szczegolnych_potrzeb" rows="4"></textarea></label>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><span>5</span><div><h2>Stanowisko i obszary wsparcia</h2></div></div>
+        <fieldset><legend>Szczebel obecnie zajmowanego stanowiska *</legend><div class="choices">
+          <label><input type="radio" name="szczebel" value="kadra_zarzadzajaca" required> Kadra zarządzająca</label>
+          <label><input type="radio" name="szczebel" value="wyzszy_szczebel"> Pracownicy wyższego szczebla</label>
+          <label><input type="radio" name="szczebel" value="sredni_szczebel"> Pracownicy średniego szczebla</label>
+          <label><input type="radio" name="szczebel" value="nizszy_szczebel"> Pracownicy niższego szczebla</label>
+          <label><input type="radio" name="szczebel" value="prace_proste"> Pracownicy wykonujący prace proste</label>
+        </div>
+        <details class="field-explanation position-explanation">
+          <summary><span class="help-icon" aria-hidden="true">i</span><span>Przykładowe stanowiska dla poszczególnych szczebli</span></summary>
+          <div class="field-explanation-content explanation-cards position-cards">
+            <article class="explanation-card"><strong>Kadra zarządzająca</strong><p>np. Dyrektor, Naczelnik Wydziału, Kierownik.</p></article>
+            <article class="explanation-card"><strong>Pracownicy wyższego szczebla</strong><p>np. Specjalista ds. administracji, Specjalista ds. statystyki, Doradca zawodowy.</p></article>
+            <article class="explanation-card"><strong>Pracownicy średniego szczebla</strong><p>np. Asystent biurowy, Pracownik działu usług rynku pracy, Technik ekonomista, Asystent EURES.</p></article>
+            <article class="explanation-card"><strong>Pracownicy niższego szczebla</strong><p>np. Kierowca, Pracownik techniczny, Robotnik gospodarczy.</p></article>
+            <article class="explanation-card"><strong>Pracownicy wykonujący prace proste</strong><p>np. Portier, Konserwator, Sprzątaczka.</p></article>
+          </div>
+        </details></fieldset>
+        <p class="support-hint" id="supportHint">Najpierw wybierz szczebel stanowiska. Następnie wskaż trzy obszary wsparcia przypisane do wybranego szczebla.</p>
+        <div class="support-grid">
+          <div class="support-row" data-support-row="1">
+            <label>Obszar wsparcia 1 *<select name="obszar_wsparcia_1" class="support-area-select" data-support-index="1" required disabled><option value="">Najpierw wybierz szczebel stanowiska</option></select></label>
+            <fieldset class="support-level-fieldset"><legend>Preferowany poziom wsparcia *</legend>
+              <div class="support-level-segmented" role="radiogroup" aria-label="Preferowany poziom wsparcia dla obszaru 1">
+                <label><input type="radio" name="obszar_1_poziom" value="1" required><span>Podstawowy</span></label>
+                <label><input type="radio" name="obszar_1_poziom" value="2"><span>Średniozaawansowany</span></label>
+                <label><input type="radio" name="obszar_1_poziom" value="3"><span>Zaawansowany</span></label>
+              </div>
+            </fieldset>
+            <div class="language-details hidden" id="languageDetails1" aria-live="polite">
+              <div class="language-details-head"><strong>Uzupełnij dane dotyczące języka obcego</strong><span>Wskaż konkretny język. Poziom wybierz poniżej.</span></div>
+              <div class="language-grid language-grid-single">
+                <label>Wpisz język *<input name="jezyk_1" class="language-input" autocomplete="off" placeholder="np. angielski"></label>
+                <input type="hidden" name="jezyk_1_poziom" value="">
+              </div>
+            </div>
+          </div>
+          <div class="support-row" data-support-row="2">
+            <label>Obszar wsparcia 2 *<select name="obszar_wsparcia_2" class="support-area-select" data-support-index="2" required disabled><option value="">Najpierw wybierz szczebel stanowiska</option></select></label>
+            <fieldset class="support-level-fieldset"><legend>Preferowany poziom wsparcia *</legend>
+              <div class="support-level-segmented" role="radiogroup" aria-label="Preferowany poziom wsparcia dla obszaru 2">
+                <label><input type="radio" name="obszar_2_poziom" value="1" required><span>Podstawowy</span></label>
+                <label><input type="radio" name="obszar_2_poziom" value="2"><span>Średniozaawansowany</span></label>
+                <label><input type="radio" name="obszar_2_poziom" value="3"><span>Zaawansowany</span></label>
+              </div>
+            </fieldset>
+            <div class="language-details hidden" id="languageDetails2" aria-live="polite">
+              <div class="language-details-head"><strong>Uzupełnij dane dotyczące języka obcego</strong><span>Wskaż konkretny język. Poziom wybierz poniżej.</span></div>
+              <div class="language-grid language-grid-single">
+                <label>Wpisz język *<input name="jezyk_2" class="language-input" autocomplete="off" placeholder="np. angielski"></label>
+                <input type="hidden" name="jezyk_2_poziom" value="">
+              </div>
+            </div>
+          </div>
+          <div class="support-row" data-support-row="3">
+            <label>Obszar wsparcia 3 *<select name="obszar_wsparcia_3" class="support-area-select" data-support-index="3" required disabled><option value="">Najpierw wybierz szczebel stanowiska</option></select></label>
+            <fieldset class="support-level-fieldset"><legend>Preferowany poziom wsparcia *</legend>
+              <div class="support-level-segmented" role="radiogroup" aria-label="Preferowany poziom wsparcia dla obszaru 3">
+                <label><input type="radio" name="obszar_3_poziom" value="1" required><span>Podstawowy</span></label>
+                <label><input type="radio" name="obszar_3_poziom" value="2"><span>Średniozaawansowany</span></label>
+                <label><input type="radio" name="obszar_3_poziom" value="3"><span>Zaawansowany</span></label>
+              </div>
+            </fieldset>
+            <div class="language-details hidden" id="languageDetails3" aria-live="polite">
+              <div class="language-details-head"><strong>Uzupełnij dane dotyczące języka obcego</strong><span>Wskaż konkretny język. Poziom wybierz poniżej.</span></div>
+              <div class="language-grid language-grid-single">
+                <label>Wpisz język *<input name="jezyk_3" class="language-input" autocomplete="off" placeholder="np. angielski"></label>
+                <input type="hidden" name="jezyk_3_poziom" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <details class="field-explanation support-level-explanation">
+          <summary><span class="help-icon" aria-hidden="true">i</span><span>Jak rozumieć poziomy wsparcia?</span></summary>
+          <div class="field-explanation-content level-cards">
+            <article class="level-card level-basic"><span class="level-number">1</span><div><strong>Poziom podstawowy</strong><p>Wprowadzenie do zagadnień i rozwój podstawowych kompetencji.</p></div></article>
+            <article class="level-card level-intermediate"><span class="level-number">2</span><div><strong>Poziom średniozaawansowany</strong><p>Rozwój i utrwalenie posiadanej wiedzy oraz umiejętności.</p></div></article>
+            <article class="level-card level-advanced"><span class="level-number">3</span><div><strong>Poziom zaawansowany</strong><p>Rozwój specjalistycznej wiedzy oraz doskonalenie umiejętności.</p></div></article>
+            <p class="level-note">Wskazany poziom ma charakter orientacyjny i będzie uwzględniany przy doborze form wsparcia.</p>
+            <p class="level-note language-note"><strong>Język obcy:</strong> w przypadku wskazania obszaru wsparcia kompetencyjnego/szkoleniowego z zakresu języka obcego należy wskazać konkretny język oraz określić jego poziom A1/A2, B1/B2 lub C1.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="card declaration-section">
+        <div class="section-title"><span>6</span><div><h2>Dane do podpisu i oświadczenia</h2><p>Przeczytaj pełną treść oświadczeń przed ich zaakceptowaniem.</p></div></div>
+        <div class="grid two"><label>Miejscowość *<input name="miejscowosc_podpisu" required></label><label>Data podpisu *<input name="data_podpisu" type="date" required></label></div>
+
+        <details class="declarations" id="declarationsDetails">
+          <summary>
+            <span class="declaration-summary-icon" aria-hidden="true">§</span>
+            <span><strong>Oświadczenia i klauzula informacyjna</strong><small>Pełna treść — 14 punktów</small></span>
+            <span class="declaration-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="declarations-content">
+            <h3>OŚWIADCZENIA</h3>
+            <p>Ja niżej podpisana/y <strong class="auto-name" id="declarationName">—</strong>, świadomy/a odpowiedzialności za składanie oświadczeń niezgodnych z prawdą:</p>
+            <ol>
+              <li>Oświadczam, iż wszystkie podane w formularzu dane odpowiadają stanowi faktycznemu i są prawdziwe.</li>
+              <li>Oświadczam, że jestem zatrudniony/a na terenie województwa śląskiego.</li>
+              <li>Oświadczam, że reprezentuję instytucję, która należy do instytucji Publicznych Służb Zatrudnienia.</li>
+              <li>Wyrażam zgodę na przetwarzanie danych osobowych.</li>
+            </ol>
+
+            <h3>OŚWIADCZENIE OSOBY APLIKUJĄCEJ O UDZIAŁ W PROJEKCIE</h3>
+            <p><strong>„Opracowanie modelu prognozowania i monitorowania zmian na rynku pracy” nr FESL.05.07-IP.02-056A/23</strong></p>
+            <p>W związku z chęcią przystąpienia do projektu pn. „Opracowanie modelu prognozowania i monitorowania zmian na rynku pracy” wyrażam zgodę na przetwarzanie moich danych osobowych oraz oświadczam, że przyjmuję do wiadomości, iż:</p>
+            <ol>
+              <li>Przesłanką umożliwiającą legalne przetwarzanie moich danych osobowych jest art. 6 ust. 1 lit. a) Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE.</li>
+              <li>W związku z realizacją procesu rekrutacji do niniejszego projektu przetwarzane będą następujące kategorie danych osobowych Uczestnika projektu: dane uczestnika, dane kontaktowe uczestnika, szczegóły i rodzaj wsparcia, status uczestnika projektu w chwili przystąpienia do projektu.</li>
+              <li>Moje dane będą przetwarzane od dnia podpisania niniejszego oświadczenia do: 1) pięciu lat począwszy od dnia zakończenia okresu realizacji projektu, przy czym IP-WUP może przedłużyć ten termin na dalszy czas oznaczony, informując o tym Beneficjenta odrębnym pismem; 2) dziesięciu lat począwszy od dnia, w którym przyznano pomoc — w przypadku projektów objętych pomocą publiczną.</li>
+              <li>Administratorem danych osobowych jest Wojewódzki Urząd Pracy z siedzibą w Katowicach (40-086), przy ul. Sokolskiej 29, wupkatowice.praca.gov.pl.</li>
+              <li>Moje dane osobowe będą wykorzystywane jedynie w celu rekrutacji oraz uczestnictwa w niniejszym projekcie.</li>
+              <li>Dane osobowe będą przetwarzane przez następujących odbiorców: instytucję zarządzającą, instytucję organizującą nabór oraz instytucje kontrolne upoważnione do przetwarzania danych osobowych na podstawie odrębnych przepisów prawa, operatora pocztowego lub kuriera (w przypadku korespondencji papierowej), podmioty zapewniające obsługę teleinformatyczną projektu.</li>
+              <li>Podmiotami, którym zostanie powierzone przetwarzanie danych osobowych, będą firmy zewnętrzne realizujące szkolenia/kursy.</li>
+              <li>O powierzeniu danych osobowych do przetwarzania innym podmiotom Uczestnik zostanie poinformowany w drodze pisemnej.</li>
+              <li>Mam prawo dostępu do moich danych osobowych, ich sprostowania, usunięcia lub ograniczenia przetwarzania.</li>
+              <li>Mam prawo do cofnięcia zgody na przetwarzanie danych osobowych w dowolnym momencie bez wpływu na zgodność z prawem przetwarzania, którego dokonano na podstawie zgody przed jej cofnięciem.</li>
+              <li>Mam prawo do wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych w przypadku podejrzenia naruszenia przepisów o ochronie danych osobowych.</li>
+              <li>Wymienione prawa będą traktowane w sposób określony w artykułach 13 do 19 Rozdziału III „Prawa osoby, której dane dotyczą” rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679.</li>
+              <li>Podanie moich danych osobowych, o których mowa w pkt 2, jest niezbędne do realizacji procesu rekrutacji. Odmowa ich przekazania jest jednoznaczna z brakiem możliwości rozpoczęcia udziału w procesie rekrutacji do projektu.</li>
+              <li>Udostępnione dane osobowe nie będą podlegały zautomatyzowanemu podejmowaniu decyzji, w tym decyzji będących wynikiem profilowania.</li>
+            </ol>
+            <div class="declaration-end">Koniec treści oświadczeń</div>
+          </div>
+        </details>
+
+        <label class="confirm declaration-confirm is-locked" id="declarationConfirm">
+          <input type="checkbox" name="potwierdzenie" required disabled>
+          <span><strong>Akceptuję oświadczenia i potwierdzam poprawność danych.</strong><small>Najpierw rozwiń i zapoznaj się z pełną treścią powyżej.</small></span>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="secondary" id="clearBtn">Wyczyść</button>
+        <button type="button" class="preview" id="previewBtn">Podgląd PDF</button>
+        <button type="submit" class="primary" id="generateBtn"><span>Pobierz wypełniony PDF</span></button>
+      </div>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+
+    <aside class="sidebar">
+      <div class="side-card project-card">
+        <h3>O projekcie</h3>
+        <p>Formularz dotyczy udziału w projekcie wspierającym rozwój kompetencji pracowników Publicznych Służb Zatrudnienia.</p>
+        <div class="project-meta"><span>Nr wniosku</span><strong>FESL.05.07-IP.02-056A/23</strong></div>
+      </div>
+      <div class="side-card steps-card">
+        <h3>Jak to działa?</h3>
+        <ol class="steps-list">
+          <li><span>1</span><div><strong>Uzupełnij dane</strong><small>Przejdź przez sześć krótkich sekcji.</small></div></li>
+          <li><span>2</span><div><strong>Sprawdź podgląd</strong><small>Zobacz wszystkie strony dokumentu.</small></div></li>
+          <li><span>3</span><div><strong>Pobierz PDF</strong><small>Zapisz gotowy dokument PDF na swoim urządzeniu.</small></div></li>
+          <li><span>4</span><div><strong>Podpisz dokument</strong><small>Ręcznie po wydruku albo elektronicznie.</small></div></li>
+        </ol>
+      </div>
+
+      <div class="side-card privacy-card"><div class="privacy-dot">✓</div><div><h3>Bez zapisywania danych</h3><p>Po zamknięciu strony wpisane informacje znikają.</p></div></div>
+    </aside>
+  </main>
+
+  <dialog id="previewDialog" class="preview-dialog">
+    <div class="preview-head"><strong>Podgląd wypełnionego PDF</strong><button type="button" id="closePreview" aria-label="Zamknij">×</button></div>
+    <iframe id="previewFrame" title="Podgląd PDF"></iframe>
+    <div class="preview-foot"><button type="button" class="primary" id="downloadPreview">Pobierz ten PDF</button></div>
+  </dialog>
 
 
-## Wersja 10.8
+
+  <dialog id="confirmDialog" class="confirm-dialog" aria-labelledby="confirmTitle">
+    <div class="confirm-card">
+      <div class="confirm-icon" aria-hidden="true">!</div>
+      <h2 id="confirmTitle">Sprawdź poprawność danych</h2>
+      <p>Przed utworzeniem dokumentu PDF upewnij się, że wszystkie dane zostały wpisane poprawnie.</p>
+      <div class="confirm-note">Po wygenerowaniu dokumentu dane w pliku PDF nie będą już edytowane przez formularz.</div>
+      <div class="confirm-actions">
+        <button type="button" class="secondary" id="cancelGeneration">Sprawdź jeszcze raz</button>
+        <button type="button" class="primary" id="confirmGeneration">Generuj PDF</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="completionDialog" class="completion-dialog" aria-labelledby="completionTitle">
+    <div class="completion-card">
+      <div class="completion-mark" aria-hidden="true">✓</div>
+      <h2 id="completionTitle">Formularz został przygotowany</h2>
+      <p>Dokument PDF został zapisany na Twoim urządzeniu.</p>
+      <p class="completion-security">Dla bezpieczeństwa wszystkie wprowadzone dane zostały usunięte z pamięci formularza.</p>
+      <p class="completion-thanks">Dziękujemy za skorzystanie z formularza.</p>
+      <button type="button" class="primary completion-close" id="closeCompletion">Zamknij</button>
+    </div>
+  </dialog>
+
+  <script src="./assets/pdf-lib.min.js"></script>
+  <script src="./app.js?v=10.8"></script>
+</body>
+</html>
