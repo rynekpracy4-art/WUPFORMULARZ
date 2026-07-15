@@ -11,4 +11,3 @@ Dane są przetwarzane lokalnie w przeglądarce. Generator nie wymaga serwera apl
 
 
 ## Wersja 10.8
-Usunięto kod QR oraz wszystkie komunikaty zachęcające do wypełniania formularza na telefonie.
