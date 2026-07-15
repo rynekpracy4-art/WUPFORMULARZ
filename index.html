@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formularz rekrutacyjny - generator PDF</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css?v=10.8">
 </head>
 <body>
   <header class="site-header">
     <div class="funding-strip">
       <div class="brand-wrap">
         <div class="funding-logos" aria-label="Logotypy programu i instytucji finansujących">
-          <img src="assets/fundusze-slaskie.png" alt="Fundusze Europejskie dla Śląskiego">
-          <img src="assets/rzeczpospolita.png" alt="Rzeczpospolita Polska">
-          <img src="assets/unia-europejska.png" alt="Dofinansowane przez Unię Europejską">
-          <img src="assets/wojewodztwo-slaskie.png" alt="Województwo Śląskie">
+          <img src="./assets/fundusze-slaskie.png" alt="Fundusze Europejskie dla Śląskiego">
+          <img src="./assets/rzeczpospolita.png" alt="Rzeczpospolita Polska">
+          <img src="./assets/unia-europejska.png" alt="Dofinansowane przez Unię Europejską">
+          <img src="./assets/wojewodztwo-slaskie.png" alt="Województwo Śląskie">
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="hero-copy">
           <div class="institution-row">
             <div class="wup-brand-box">
-              <img src="assets/logo-wup-oficjalne.png" alt="Wojewódzki Urząd Pracy w Katowicach" class="wup-logo-wide">
+              <img src="./assets/logo-wup-oficjalne.png" alt="Wojewódzki Urząd Pracy w Katowicach" class="wup-logo-wide">
             </div>
           </div>
           <h1>Formularz rekrutacyjny uczestnika projektu</h1>
@@ -147,7 +147,6 @@
               </div>
             </div>
           </div>
-          </div>
           <div class="support-row" data-support-row="2">
             <label>Obszar wsparcia 2 *<select name="obszar_wsparcia_2" class="support-area-select" data-support-index="2" required disabled><option value="">Najpierw wybierz szczebel stanowiska</option></select></label>
             <fieldset class="support-level-fieldset"><legend>Preferowany poziom wsparcia *</legend>
@@ -165,7 +164,6 @@
               </div>
             </div>
           </div>
-          </div>
           <div class="support-row" data-support-row="3">
             <label>Obszar wsparcia 3 *<select name="obszar_wsparcia_3" class="support-area-select" data-support-index="3" required disabled><option value="">Najpierw wybierz szczebel stanowiska</option></select></label>
             <fieldset class="support-level-fieldset"><legend>Preferowany poziom wsparcia *</legend>
@@ -182,7 +180,6 @@
                 <input type="hidden" name="jezyk_3_poziom" value="">
               </div>
             </div>
-          </div>
           </div>
         </div>
         <details class="field-explanation support-level-explanation">
@@ -265,10 +262,11 @@
         <ol class="steps-list">
           <li><span>1</span><div><strong>Uzupełnij dane</strong><small>Przejdź przez sześć krótkich sekcji.</small></div></li>
           <li><span>2</span><div><strong>Sprawdź podgląd</strong><small>Zobacz wszystkie strony dokumentu.</small></div></li>
-          <li><span>3</span><div><strong>Pobierz PDF</strong><small>Zapisz gotowy plik PDF na swoim urządzeniu.</small></div></li>
+          <li><span>3</span><div><strong>Pobierz PDF</strong><small>Zapisz gotowy dokument PDF na swoim urządzeniu.</small></div></li>
           <li><span>4</span><div><strong>Podpisz dokument</strong><small>Ręcznie po wydruku albo elektronicznie.</small></div></li>
         </ol>
       </div>
+
       <div class="side-card privacy-card"><div class="privacy-dot">✓</div><div><h3>Bez zapisywania danych</h3><p>Po zamknięciu strony wpisane informacje znikają.</p></div></div>
     </aside>
   </main>
@@ -305,7 +303,7 @@
     </div>
   </dialog>
 
-  <script src="assets/pdf-lib.min.js"></script>
-  <script src="app.js"></script>
+  <script src="./assets/pdf-lib.min.js"></script>
+  <script src="./app.js?v=10.8"></script>
 </body>
 </html>

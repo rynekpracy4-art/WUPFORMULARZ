@@ -1,12 +1,11 @@
-# Formularz rekrutacyjny – GitHub Pages
+# Formularz rekrutacyjny — wersja FINAL wizualnie dopracowana
 
-Wgraj **zawartość tego folderu bez dodatkowego katalogu nadrzędnego** do katalogu publikowanego przez GitHub Pages.
+Zmiany w tej wersji:
+- estetyczny, kompaktowy wybór poziomu wsparcia,
+- czytelny tryb poziomów językowych A1/A2, B1/B2, C1,
+- uporządkowane karty wyjaśnień stanowisk i poziomów,
+- zachowana cała grafika, logika formularza i generator PDF,
+- brak kodu QR i informacji o wypełnianiu na telefonie.
 
-W katalogu głównym muszą znajdować się:
-- `index.html`
-- `style.css`
-- `app.js`
-- `.nojekyll`
-- folder `assets`
-
-Po aktualizacji GitHub Pages wykonaj twarde odświeżenie strony (`Ctrl+F5` / `Cmd+Shift+R`).
+## GitHub Pages
+Wgraj rozpakowaną zawartość folderu do katalogu głównego repozytorium.
