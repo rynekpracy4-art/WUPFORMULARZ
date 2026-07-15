@@ -8,3 +8,7 @@
 5. Po wdrożeniu odczekaj 1–3 minuty i wykonaj twarde odświeżenie (`Ctrl+F5` / `Cmd+Shift+R`).
 
 Dane są przetwarzane lokalnie w przeglądarce. Generator nie wymaga serwera aplikacyjnego.
+
+
+## Wersja 10.8
+Usunięto kod QR oraz wszystkie komunikaty zachęcające do wypełniania formularza na telefonie.
